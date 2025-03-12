@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casos de Uso</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+            text-align: left;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-top: 15px;
+            cursor: pointer;
+            width: 100%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="casoUso">
+        <h2>Documentación de Caso de Uso</h2>
+        <label>Nombre del caso de uso:</label>
+        <input type="text" id="nombre" placeholder="Ej: Registro de usuario">
+        
+        <label>Área:</label>
+        <input type="text" id="area" placeholder="Ej: Autenticación">
+        
+        <label>ID Único:</label>
+        <input type="text" id="id_unico" placeholder="Ej: UC-001">
+        
+        <label>Actor(es):</label>
+        <input type="text" id="actores" placeholder="Listar actores principales">
+        
+        <label>Interesados:</label>
+        <input type="text" id="interesados" placeholder="Listar partes interesadas">
+        
+        <label>Nivel:</label>
+        <select id="nivel">
+            <option value="">Seleccionar...</option>
+            <option>Bajo</option>
+            <option>Medio</option>
+            <option>Alto</option>
+        </select>
+        
+        <label>Descripción:</label>
+        <textarea id="descripcion" placeholder="Descripción detallada del caso de uso..."></textarea>
+        
+        <label>Evento desencadenador:</label>
+        <textarea id="evento" placeholder="Evento que inicia el caso de uso..."></textarea>
+        
+        <label>Tipo de desencadenador:</label>
+        <input type="checkbox" id="externo"> Externo
+        <input type="checkbox" id="temporal"> Temporal
+        
+        <h3>Pasos realizados:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Paso</th>
+                    <th>Descripción</th>
+                    <th>Detalles adicionales</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody id="steps-body">
+                <!-- Filas dinámicas se agregarán aquí -->
+            </tbody>
+        </table>
+        <button type="button" onclick="addStep()">+ Agregar Paso</button>
+        
+        <label>Prioridad:</label>
+        <select id="prioridad">
+            <option value="">Seleccionar...</option>
+            <option>Baja</option>
+            <option>Media</option>
+            <option>Alta</option>
+        </select>
+        
+        <label>Riesgo:</label>
+        <select id="riesgo">
+            <option value="">Seleccionar...</option>
+            <option>Bajo</option>
+            <option>Medio</option>
+            <option>Alto</option>
+        </select>
+        
+        <button onclick="window.print()">Guardar en PDF</button>
+    </div>
+    <script>
+        let stepCounter = 1;
+
+        function addStep() {
+            const tbody = document.getElementById('steps-body');
+            const newRow = document.createElement('tr');
+            
+            newRow.innerHTML = `
+                <td>${stepCounter}</td>
+                <td><input type="text" placeholder="Descripción del paso"></td>
+                <td><textarea placeholder="Detalles adicionales"></textarea></td>
+                <td><button type="button" onclick="deleteStep(this)">Eliminar</button></td>
+            `;
+            
+            tbody.appendChild(newRow);
+            stepCounter++;
+        }
+
+        function deleteStep(button) {
+            const row = button.closest('tr');
+            row.remove();
+            updateStepNumbers();
+        }
+
+        function updateStepNumbers() {
+            const rows = document.querySelectorAll('#steps-body tr');
+            rows.forEach((row, index) => {
+                row.cells[0].textContent = index + 1;
+            });
+            stepCounter = rows.length + 1;
+        }
+    </script>
+</body>
+</html>
